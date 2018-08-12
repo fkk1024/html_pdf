@@ -117,7 +117,7 @@
                 </p>
               </td>
               <td width="217" valign="center" colspan="11">
-                <p class="MsoNormal font_class" align="center"><span>3<font face="宋体">包</font></span><span></span>
+                <p class="MsoNormal font_class" align="center"><span>3包</span><span></span>
                 </p>
               </td>
               <td width="82" valign="center" colspan="2">
@@ -966,20 +966,11 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-  @font-face {
-    font-family: 'hand_font';
-    src: url('./font.eot');
-    src: url('./font.eot?#iefix') format('embedded-opentype'),
-    url('./font.woff') format('woff'),
-    url('./font.ttf') format('truetype'),
-    url('./font.svg#webfont34M5alKg') format('svg');
-    font-weight: normal;
-    font-style: normal;
-  }
+<style>
+
 
   .font_class {
-    font-family: hand_font;
+    font-family: 'hand_font';
     font-size: 20px;
   }
 
