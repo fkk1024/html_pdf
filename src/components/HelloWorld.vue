@@ -1,71 +1,25 @@
 <template>
   <section>
-    <el-row style="padding: 10px 0;margin:  10px 0">
-      <el-col :span="5">
-        <!--<p>样品名称</p>-->
-        <el-select v-model="specimen_value" size="mini" placeholder="请选择样品名称" @change="specimen_change">
-          <el-option
-            v-for="item in specimen"
-            :key="item.v"
-            :label="item.l"
-            :value="item.v">
-          </el-option>
-        </el-select>
-      </el-col>
-      <el-col :span="7">
-        <el-row>
-          <!--<p>型号规格</p>-->
-          <el-col :span="18">
-            <el-input size="mini" v-model="size_type" placeholder="输入规格,数值，例如100，110，150"></el-input>
-          </el-col>
-          <el-col :span="6">
-            <el-button size="mini" @click="jhl_C" style="width: 100%">
-              计算净含量
-            </el-button>
-          </el-col>
-        </el-row>
 
-      </el-col>
-      <el-col :span="6">
-        <!--<p>选择日期</p>-->
-        <el-date-picker
-          size="mini"
-          value-format="yyyy / MM / dd"
-          v-model="date_val"
-          align="right"
-          type="date"
-          placeholder="选择日期">
-        </el-date-picker>
-      </el-col>
-      <el-col :span="6">
-        <el-button type="primary" size="mini" @click="sjsf">水分随机生成</el-button>
-        <el-button type="primary" size="mini" @click="sjhf">灰分随机生成</el-button>
-      </el-col>
-      <el-col :span="24">
-        <el-button type="primary" size="mini" @click="sjbds">斑点个数随机生成</el-button>
-        <el-button type="primary" size="mini" @click="sjxd">细度随机生成</el-button>
-        <el-button type="primary" size="mini" @click="sjbd">白度随机生成</el-button>
-      </el-col>
-    </el-row>
     <div class="row" id="pdfDom"
          style="background-color:#fff;
-         width: 800px;
+         width: 850px;
          margin: 0 auto;
          color: #000;
-         height: 1120px;
+         height: 1220px;
          padding: 10px;
          box-sizing: border-box">
       <el-row>
         <el-col>
           <p style="padding: 10px;font-size: 20px;font-weight: bold">平湖市林埭镇广欣食品厂检验原始记录</p>
-          <p style="text-align: right;padding-right: 10px;padding-bottom: 5px">检（ ）第（ ）号</p>
+          <p style="text-align: right;padding-right: 10px;padding-bottom: 5px">检（<span class="font_class" style="display: inline-block;width: 15px">{{input1}}</span>）第（<span class="font_class" style="display: inline-block;width: 15px">{{input2}}</span>）号</p>
         </el-col>
         <el-col>
           <table class="MsoNormalTable" cellspacing="0"
                  style="border-right: 1px solid #000;border-bottom: 1px solid #000">
             <tbody>
 
-            <tr height="50">
+            <tr height="60">
               <td width="68" valign="center">
                 <p class="MsoNormal" align="center">
                   <span>样品名称</span>
@@ -102,7 +56,7 @@
               </td>
             </tr>
 
-            <tr height="50">
+            <tr height="60">
               <td width="68" valign="center">
                 <p class="MsoNormal" align="center"><span>生产日期</span><span></span>
                 </p>
@@ -117,7 +71,7 @@
                 </p>
               </td>
               <td width="217" valign="center" colspan="11">
-                <p class="MsoNormal font_class" align="center"><span>3包</span><span></span>
+                <p class="MsoNormal font_class" align="center"><span>3<font face="宋体">包</font></span><span></span>
                 </p>
               </td>
               <td width="82" valign="center" colspan="2">
@@ -131,7 +85,7 @@
               </td>
             </tr>
 
-            <tr height="50">
+            <tr height="60">
               <td width="68" valign="center">
                 <p class="MsoNormal" align="center"><span>检验项目</span><span></span>
                 </p>
@@ -156,7 +110,7 @@
               </td>
             </tr>
 
-            <tr height="50">
+            <tr height="60">
               <td width="68" valign="center">
                 <p class="MsoNormal" align="center"><span>感官，<font face="Times New Roman">g</font></span><span></span>
                 </p>
@@ -165,7 +119,10 @@
                 <p class="MsoNormal" align="center"><span>符合标准要求</span><span></span></p>
               </td>
               <td width="378" valign="center" colspan="18">
-                <p class="MsoNormal" align="center"><span>微带浅黄色阴影，具有光泽，具有玉米淀粉固有的特殊气味，无异味</span><span></span>
+                <p class="MsoNormal" align="center">
+                  <span class="font_class" v-if="specimen_value=='玉米淀粉'">微带浅黄色阴影，具有光泽，具有玉米淀粉固有的特殊气味，无异味</span>
+                  <span class="font_class" v-if="specimen_value=='小麦淀粉'">白色粉末，具有小麦淀粉固有气味，无异味。</span>
+                  <span class="font_class" v-if="specimen_value=='马铃薯淀粉'">洁白具有光泽，具有马铃薯淀粉固有气味，无异味，无肉眼可见杂质。</span>
                 </p>
               </td>
               <td width="141" valign="center" colspan="3">
@@ -180,7 +137,7 @@
               </td>
             </tr>
 
-            <tr height="50">
+            <tr height="60">
               <td width="68" valign="center" rowspan="2">
                 <p class="MsoNormal" align="center"><span>净含量，<font face="Times New Roman">g</font></span><span></span>
                 </p>
@@ -216,7 +173,7 @@
               </td>
             </tr>
             <!--水分-->
-            <tr height="50">
+            <tr height="60">
               <td width="75" valign="center" colspan="4">
                 <p class="MsoNormal" align="center">
                   <span v-if="jhl[0]" v-html="jhl[0]+'克/包'" class="font_class"></span>
@@ -244,16 +201,16 @@
               </td>
             </tr>
 
-            <tr height="50">
+            <tr height="60">
               <td width="68" valign="center" rowspan="3">
                 <p class="MsoNormal" align="center"><span>水分，<font face="Times New Roman">%</font></span><span></span>
                 </p>
               </td>
               <td width="51" valign="center" rowspan="3">
-                <p class="MsoNormal font_class" v-if="specimen_value=='玉米'||specimen_value=='小麦'">
+                <p class="MsoNormal font_class" v-if="specimen_value=='玉米淀粉'||specimen_value=='小麦淀粉'">
                   <span>≤</span><span>14.0</span>
                 </p>
-                <p class="MsoNormal font_class" v-if="specimen_value=='马铃薯'"><span>≤</span><span>20.0</span></p>
+                <p class="MsoNormal font_class" v-if="specimen_value=='马铃薯淀粉'"><span>≤</span><span>20.0</span></p>
               </td>
               <td width="47" valign="center">
                 <p class="MsoNormal" align="center"><span>编号</span><span></span></p>
@@ -292,7 +249,7 @@
                 </p>
               </td>
             </tr>
-            <tr height="50">
+            <tr height="60">
               <td width="47" valign="center">
                 <p class="MsoNormal" align="center"><span>1</span><span></span>
                 </p>
@@ -323,7 +280,7 @@
                 </p>
               </td>
             </tr>
-            <tr height="50">
+            <tr height="60">
               <td width="47" valign="center">
                 <p class="MsoNormal" align="center"><span>2</span><span></span>
                 </p>
@@ -360,7 +317,8 @@
                 </p>
               </td>
               <td width="51" valign="center" rowspan="3">
-                <p class="MsoNormal font_class" v-if="specimen_value=='玉米'"><span>≤</span><span>0.15</span><span></span>
+                <p class="MsoNormal font_class" v-if="specimen_value=='玉米淀粉'">
+                  <span>≤</span><span>0.15</span><span></span>
                 </p>
                 <p class="MsoNormal font_class" v-else><span>≤</span><span>0.40</span><span></span></p>
               </td>
@@ -397,7 +355,7 @@
                 </p>
               </td>
             </tr>
-            <tr height="50">
+            <tr height="60">
               <td width="47" valign="center">
                 <p class="MsoNormal" align="center"><span>1</span><span></span>
                 </p>
@@ -423,7 +381,7 @@
                 </p>
               </td>
             </tr>
-            <tr height="50">
+            <tr height="60">
               <td width="47" valign="center">
                 <p class="MsoNormal" align="center"><span>2</span><span></span>
                 </p>
@@ -450,7 +408,7 @@
               </td>
             </tr>
 
-            <tr height="50">
+            <tr height="60">
               <td width="68" valign="center" rowspan="3">
                 <p class="MsoNormal" align="center"><span>斑点，个<font
                   face="Times New Roman">/cm</font></span><sup><span>2</span></sup><span></span></p>
@@ -458,11 +416,14 @@
                 </p>
               </td>
               <td width="51" valign="center" rowspan="3">
-                <p class="MsoNormal font_class" v-if="specimen_value=='玉米'"><span>≤</span><span>0.7</span><span></span>
+                <p class="MsoNormal font_class" v-if="specimen_value=='玉米淀粉'">
+                  <span>≤</span><span>0.7</span><span></span>
                 </p>
-                <p class="MsoNormal font_class" v-if="specimen_value=='小麦'"><span>≤</span><span>3.0</span><span></span>
+                <p class="MsoNormal font_class" v-if="specimen_value=='小麦淀粉'">
+                  <span>≤</span><span>3.0</span><span></span>
                 </p>
-                <p class="MsoNormal font_class" v-if="specimen_value=='马铃薯'"><span>≤</span><span>6.0</span><span></span>
+                <p class="MsoNormal font_class" v-if="specimen_value=='马铃薯淀粉'">
+                  <span>≤</span><span>6.0</span><span></span>
                 </p>
               </td>
               <td width="47" valign="center">
@@ -485,7 +446,7 @@
                 </p>
               </td>
             </tr>
-            <tr height="50">
+            <tr height="60">
               <td width="47" valign="center">
                 <p class="MsoNormal" align="center"><span>1</span><span></span>
                 </p>
@@ -501,7 +462,7 @@
                 </p>
               </td>
             </tr>
-            <tr height="50">
+            <tr height="60">
               <td width="47" valign="center">
                 <p class="MsoNormal" align="center"><span>2</span><span></span>
                 </p>
@@ -526,11 +487,13 @@
                 </p>
               </td>
               <td width="51" valign="center" rowspan="3">
-                <p class="MsoNormal font_class" v-if="specimen_value=='玉米'"><span>≥</span><span>99.0</span><span></span>
+                <p class="MsoNormal font_class" v-if="specimen_value=='玉米淀粉'">
+                  <span>≥</span><span>99.0</span><span></span>
                 </p>
-                <p class="MsoNormal font_class" v-if="specimen_value=='小麦'"><span>≥</span><span>98.0</span><span></span>
+                <p class="MsoNormal font_class" v-if="specimen_value=='小麦淀粉'">
+                  <span>≥</span><span>98.0</span><span></span>
                 </p>
-                <p class="MsoNormal font_class" v-if="specimen_value=='马铃薯'">
+                <p class="MsoNormal font_class" v-if="specimen_value=='马铃薯淀粉'">
                   <span>≥</span><span>99.5</span><span></span></p>
               </td>
               <td width="47" valign="center">
@@ -561,7 +524,7 @@
                 </p>
               </td>
             </tr>
-            <tr height="50">
+            <tr height="60">
               <td width="47" valign="center">
                 <p class="MsoNormal" align="center"><span>1</span><span></span></p>
               </td>
@@ -581,7 +544,7 @@
                 </p>
               </td>
             </tr>
-            <tr height="50">
+            <tr height="60">
               <td width="47" valign="center">
                 <p class="MsoNormal" align="center"><span>2</span><span></span></p>
               </td>
@@ -601,17 +564,20 @@
                 </p>
               </td>
             </tr>
-            <tr height="50">
+            <tr height="60">
               <td width="68" valign="center">
                 <p class="MsoNormal" align="center"><span>白度，<font face="Times New Roman">%</font></span><span></span>
                 </p>
               </td>
               <td width="51" valign="center">
-                <p class="MsoNormal font_class" v-if="specimen_value=='玉米'"><span>≥</span><span>87.0</span><span></span>
+                <p class="MsoNormal font_class" v-if="specimen_value=='玉米淀粉'">
+                  <span>≥</span><span>87.0</span><span></span>
                 </p>
-                <p class="MsoNormal font_class" v-if="specimen_value=='小麦'"><span>≥</span><span>91.0</span><span></span>
+                <p class="MsoNormal font_class" v-if="specimen_value=='小麦淀粉'">
+                  <span>≥</span><span>91.0</span><span></span>
                 </p>
-                <p class="MsoNormal font_class" v-if="specimen_value=='马铃薯'"><span>≥</span><span>90.0</span><span></span></p>
+                <p class="MsoNormal font_class" v-if="specimen_value=='马铃薯淀粉'">
+                  <span>≥</span><span>90.0</span><span></span></p>
               </td>
               <td width="126" valign="center" colspan="5">
                 <p class="MsoNormal" align="center"><span>白度仪读数</span><span></span>
@@ -653,7 +619,632 @@
         </el-col>
       </el-row>
     </div>
-    <button type="button" class="btn btn-primary" @click="getPdf()">导出PDF</button>
+    <div class="Section0" style="background-color:#fff;
+         width: 850px;
+         color: #000;
+         height: 1220px;
+         margin: 0 auto;
+         margin-top: 250px;padding-top: 50px;
+         box-sizing: border-box">
+      <p class=MsoNormal align=center style="text-align:center;position: relative;font-size: 12px">
+        <span style="mso-bidi-font-family:'Times New Roman';font-size: 20px;font-weight: bold;">平湖市林埭镇广欣食品厂</span>
+        <span style="position: absolute;top: 0;right: 0">
+          检（<span class="font_class" style="display: inline-block;width: 15px">{{input1}}</span>）
+          第（<span class="font_class" style="display: inline-block;width: 15px">{{input2}}</span>）号</span><b><span
+          style="mso-bidi-font-family:'Times New Roman';font-weight:bold;font-size:15.0000pt;"><span></span></span></b>
+      </p>
+      <p class=MsoNormal align=center style="text-align:center;margin: 20px 0"><span
+        style="mso-bidi-font-family:'Times New Roman';font-size:15.0000pt;"><font
+        face="宋体">检验报告</font></span><span
+        style="mso-bidi-font-family:'Times New Roman';font-size:15.0000pt;"><span></span></span>
+      </p>
+      <p class=MsoNormal align=center style="text-align:center;"><span
+        style="mso-bidi-font-family:'Times New Roman';">产品名称：</span><span
+        style="mso-bidi-font-family:'Times New Roman';">
+        <span class="font_class"
+              style="border-bottom: 1px solid #000;padding: 0 10px;width: 100px;display: inline-block">{{specimen_value}}</span>
+      </span><span
+        style="mso-bidi-font-family:'Times New Roman';"> 型号规格：</span><span
+        style="mso-bidi-font-family:'Times New Roman';">
+        <span class="font_class"
+              style="border-bottom: 1px solid #000;padding: 0 10px;width: 100px;display: inline-block">{{size_type}}克/包</span>
+      </span><span
+        style="mso-bidi-font-family:'Times New Roman';"> 等级：</span><span
+        style="mso-bidi-font-family:'Times New Roman';">
+        <span class="font_class"
+              style="border-bottom: 1px solid #000;padding: 0 10px;width: 100px;display: inline-block">{{level_name}}</span>
+      </span><span
+        style="mso-bidi-font-family:'Times New Roman';"> 抽样数：</span><span
+        style="mso-bidi-font-family:'Times New Roman';">
+        <span class="font_class"
+              style="border-bottom: 1px solid #000;padding: 0 10px;width: 100px;display: inline-block">3包</span>
+      </span><span
+        style="mso-bidi-font-family:'Times New Roman';"></span><span
+        style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+      </p>
+      <p class=MsoNormal align=center style="text-align:center;"><span
+        style="mso-bidi-font-family:'Times New Roman';">生产\检验日期：</span><span
+        style="mso-bidi-font-family:'Times New Roman';">
+        <span class="font_class"
+              style="border-bottom: 1px solid #000;padding: 0 10px;width: 150px;display: inline-block">{{date_val}}</span>
+      </span><span
+        style="mso-bidi-font-family:'Times New Roman';"> 检验依据：</span><span
+        style="mso-bidi-font-family:'Times New Roman';">
+        <span class="font_class"
+              style="border-bottom: 1px solid #000;padding: 0 10px;width: 150px;display: inline-block">{{jyyj}}</span>
+      </span><span
+        style="mso-bidi-font-family:'Times New Roman';"> 报告日期：</span><span
+        style="mso-bidi-font-family:'Times New Roman';">
+        <span class="font_class"
+              style="border-bottom: 1px solid #000;padding: 0 10px;width: 150px;display: inline-block">{{date_val}}</span>
+      </span><span
+        style="mso-bidi-font-family:'Times New Roman';"></span><span
+        style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+      </p>
+      <p class=MsoNormal align=center style="text-align:center;"><span
+        style="mso-bidi-font-family:'Times New Roman';"><span>&nbsp;</span></span>
+      </p>
+      <table class=MsoTableGrid border=1 cellspacing=0
+             style="border-collapse:collapse;width:100%;mso-table-layout-alt:fixed;border:none;mso-border-left-alt:0.5000pt solid rgb(0,0,0);mso-border-top-alt:0.5000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);mso-border-insideh:0.5000pt solid rgb(0,0,0);mso-border-insidev:0.5000pt solid rgb(0,0,0);mso-padding-alt:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;margin: 0">
+        <tr style="height:40.5000pt;">
+          <td width=118 valign=middle
+              style="width:71.0000pt;border-left:1.0000pt solid rgb(0,0,0);mso-border-left-alt:0.5000pt solid rgb(0,0,0);border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:1.0000pt solid rgb(0,0,0);mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';">序号</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:1.0000pt solid rgb(0,0,0);mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';">检验项目</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:1.0000pt solid rgb(0,0,0);mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';">标准值</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:1.0000pt solid rgb(0,0,0);mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';">实测值</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0500pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:1.0000pt solid rgb(0,0,0);mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';">外检报告单编号</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0500pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:1.0000pt solid rgb(0,0,0);mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';">单项判定</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+        </tr>
+        <tr style="height:40.6000pt;">
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:1.0000pt solid rgb(0,0,0);mso-border-left-alt:0.5000pt solid rgb(0,0,0);border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';">1</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';">感官</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';">应符合标准的感官要求</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';" class="font_class">符合</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0500pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';">/</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0500pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';" class="font_class">合格</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+        </tr>
+        <tr style="height:41.9000pt;">
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:1.0000pt solid rgb(0,0,0);mso-border-left-alt:0.5000pt solid rgb(0,0,0);border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';">2</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';">净含量，g</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+          <td width=118
+              valign="middle"
+              style="width:71.0000pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);padding: 0">
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';" class="font_class"></span><span
+              style="font-family:微软雅黑;mso-fareast-mso-bidi-font-family:'Times New Roman';color:rgb(51,51,51);"></span><span
+              style="mso-ascii-font-family:微软雅黑;mso-hansi-font-family:微软雅黑;mso-bidi-font-family:'Times New Roman';color:rgb(51,51,51);"
+              class="font_class">≥{{size_type}}</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';" class="font_class">{{jhl_average}}</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0500pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';">/</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0500pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';" class="font_class">合格</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+        </tr>
+        <tr style="height:37.6000pt;">
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:1.0000pt solid rgb(0,0,0);mso-border-left-alt:0.5000pt solid rgb(0,0,0);border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';">3</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';">水分，%</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+            <p class="MsoNormal font_class" v-if="specimen_value=='玉米淀粉'||specimen_value=='小麦淀粉'">
+              <span>≤</span><span>14.0</span>
+            </p>
+            <p class="MsoNormal font_class" v-if="specimen_value=='马铃薯淀粉'"><span>≤</span><span>20.0</span></p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';" class="font_class">{{sfarr1}}</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0500pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';">/</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0500pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';" class="font_class">合格</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+        </tr>
+        <tr style="height:41.7000pt;">
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:1.0000pt solid rgb(0,0,0);mso-border-left-alt:0.5000pt solid rgb(0,0,0);border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';">4</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';">灰分（干基），%</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+            <p class="MsoNormal font_class" v-if="specimen_value=='玉米淀粉'">
+              <span>≤</span><span>0.15</span><span></span>
+            </p>
+            <p class="MsoNormal font_class" v-else><span>≤</span><span>0.40</span><span></span></p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';" class="font_class">{{hfarr1}}</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0500pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';">/</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0500pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';" class="font_class">合格</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+        </tr>
+        <tr style="height:42.3000pt;">
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:1.0000pt solid rgb(0,0,0);mso-border-left-alt:0.5000pt solid rgb(0,0,0);border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';">5</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';">斑点，个/cm2</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+            <p class="MsoNormal font_class" v-if="specimen_value=='玉米淀粉'">
+              <span>≤</span><span>0.7</span><span></span>
+            </p>
+            <p class="MsoNormal font_class" v-if="specimen_value=='小麦淀粉'">
+              <span>≤</span><span>3.0</span><span></span>
+            </p>
+            <p class="MsoNormal font_class" v-if="specimen_value=='马铃薯淀粉'">
+              <span>≤</span><span>6.0</span><span></span>
+            </p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';" class="font_class">{{bdarr1}}</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0500pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';">/</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0500pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';" class="font_class">合格</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+        </tr>
+        <tr style="height:47.3500pt;">
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:1.0000pt solid rgb(0,0,0);mso-border-left-alt:0.5000pt solid rgb(0,0,0);border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';">6</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';">细度，%</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+            <p class="MsoNormal font_class" v-if="specimen_value=='玉米淀粉'">
+              <span>≥</span><span>99.0</span><span></span>
+            </p>
+            <p class="MsoNormal font_class" v-if="specimen_value=='小麦淀粉'">
+              <span>≥</span><span>98.0</span><span></span>
+            </p>
+            <p class="MsoNormal font_class" v-if="specimen_value=='马铃薯淀粉'">
+              <span>≥</span><span>99.5</span><span></span></p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';" class="font_class">{{xdarr1}}</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0500pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';">/</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0500pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';" class="font_class">合格</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+        </tr>
+        <tr style="height:42.3000pt;">
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:1.0000pt solid rgb(0,0,0);mso-border-left-alt:0.5000pt solid rgb(0,0,0);border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';">7</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';">白度，%</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+            <p class="MsoNormal font_class" v-if="specimen_value=='玉米淀粉'">
+              <span>≥</span><span>87.0</span><span></span>
+            </p>
+            <p class="MsoNormal font_class" v-if="specimen_value=='小麦淀粉'">
+              <span>≥</span><span>91.0</span><span></span>
+            </p>
+            <p class="MsoNormal font_class" v-if="specimen_value=='马铃薯淀粉'">
+              <span>≥</span><span>90.0</span><span></span></p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';" class="font_class">{{bdsarr1}}</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0500pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';">/</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0500pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';" class="font_class">合格</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+        </tr>
+        <tr style="height:41.3000pt;">
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:1.0000pt solid rgb(0,0,0);mso-border-left-alt:0.5000pt solid rgb(0,0,0);border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0500pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0500pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+
+          </td>
+        </tr>
+        <tr style="height:34.8000pt;">
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:1.0000pt solid rgb(0,0,0);mso-border-left-alt:0.5000pt solid rgb(0,0,0);border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0500pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0500pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+
+          </td>
+        </tr>
+        <tr style="height:35.3000pt;">
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:1.0000pt solid rgb(0,0,0);mso-border-left-alt:0.5000pt solid rgb(0,0,0);border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0500pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+
+          </td>
+          <td width=118 valign=middle
+              style="width:71.0500pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+
+          </td>
+        </tr>
+        <tr style="height:46.8000pt;">
+          <td width=118 valign=middle
+              style="width:71.0000pt;;border-left:1.0000pt solid rgb(0,0,0);mso-border-left-alt:0.5000pt solid rgb(0,0,0);border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+
+            <p class=MsoNormal align=center style="text-align:center;"><span
+              style="mso-bidi-font-family:'Times New Roman';">综合结论</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+          </td>
+          <td width=591 valign=middle colspan=5
+              style="width:355.1000pt;;border-left:none;mso-border-left-alt:none;border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
+            <p class=MsoNormal style="text-align:left;"><span
+              style="mso-bidi-font-family:'Times New Roman';"><span>&nbsp;</span></span>
+            </p>
+            <p class=MsoNormal style="text-align:left;"><span
+              style="mso-bidi-font-family:'Times New Roman';" class="font_class">产品合格，准予出厂</span><span
+              style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+            </p>
+            <p class=MsoNormal style="text-align:left;"><span
+              style="mso-bidi-font-family:'Times New Roman';"><span>&nbsp;</span></span>
+            </p>
+          </td>
+        </tr>
+      </table>
+      <p class=MsoNormal align=center style="text-align:center;"><span
+        style="mso-bidi-font-family:'Times New Roman';"><span>&nbsp;</span></span>
+      </p>
+      <p class=MsoNormal align=center style="text-align:center;"><span
+        style="mso-bidi-font-family:'Times New Roman';"><span>&nbsp;</span></span>
+      </p>
+      <p class=MsoNormal align=center style="text-align:center;"><span
+        style="mso-bidi-font-family:'Times New Roman';"><font
+        face="宋体">检验员：</font></span><span
+        style="display: inline-block;width: 150px;border-bottom: 1px solid #000"
+        class="font_class">王逵恒</span><span
+        style="mso-bidi-font-family:'Times New Roman';">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;批准人：</span>
+        <span style="display: inline-block;width: 150px;border-bottom: 1px solid #000"
+              class="font_class">王水中</span><span
+          style="mso-bidi-font-family:'Times New Roman';"></span><span
+          style="mso-bidi-font-family:'Times New Roman';"><span></span></span>
+      </p>
+      <p class=MsoNormal><span
+        style="font-family:Calibri;mso-fareast-mso-bidi-font-family:'Times New Roman';"><span>&nbsp;</span></span>
+      </p>
+    </div>
+    <el-row style="padding: 10px 0;margin: 0;margin-top: 550px;padding-top: 200px">
+      <el-col :span="2">
+        <!--<p>样品名称</p>-->
+        <el-select v-model="specimen_value" size="mini" placeholder="请选择样品名称" @change="specimen_change">
+          <el-option
+            v-for="item in specimen"
+            :key="item.v"
+            :label="item.l"
+            :value="item.v">
+          </el-option>
+        </el-select>
+      </el-col>
+      <el-col :span="6">
+        <el-row>
+          <!--<p>型号规格</p>-->
+          <el-col :span="18">
+            <el-input size="mini" v-model="size_type" placeholder="输入规格,数值，例如100，110，150"></el-input>
+          </el-col>
+          <el-col :span="6">
+            <el-button size="mini" @click="jhl_C" style="width: 100%">
+              计算净含量
+            </el-button>
+          </el-col>
+        </el-row>
+
+      </el-col>
+      <el-col :span="4">
+        <!--<p>选择日期</p>-->
+        <el-date-picker
+          size="mini"
+          value-format="yyyy / MM / dd"
+          v-model="date_val"
+          align="right"
+          type="date"
+          placeholder="选择日期">
+        </el-date-picker>
+      </el-col>
+      <el-col :span="4">
+        <el-button type="primary" size="mini" @click="sjsf">水分随机生成</el-button>
+        <el-button type="primary" size="mini" @click="sjhf">灰分随机生成</el-button>
+      </el-col>
+      <el-col :span="6">
+        <el-button type="primary" size="mini" @click="sjbds">斑点个数随机生成</el-button>
+        <el-button type="primary" size="mini" @click="sjxd">细度随机生成</el-button>
+        <el-button type="primary" size="mini" @click="sjbd">白度随机生成</el-button>
+      </el-col>
+      <el-col>
+        <el-input v-model="input1" placeholder="检（这里的值）第（）号码"></el-input>
+        <el-input v-model="input2" placeholder="检（）第（这里的值）号码"></el-input>
+      </el-col>
+    </el-row>
     <!--<div id="test"></div>-->
   </section>
 </template>
@@ -663,16 +1254,18 @@
     name: 'HelloWorld',
     data() {
       return {
+        input1: '',//检测号码
+        input2: '',//检测号码
         specimen: [
           {
-            l: '玉米',
-            v: '玉米'
+            l: '玉米淀粉',
+            v: '玉米淀粉'
           }, {
-            l: '小麦',
-            v: '小麦'
+            l: '小麦淀粉',
+            v: '小麦淀粉'
           }, {
-            l: '马铃薯',
-            v: '马铃薯'
+            l: '马铃薯淀粉',
+            v: '马铃薯淀粉'
           }
         ],
         sfarr: [
@@ -719,13 +1312,13 @@
             x: ''
           }
         ],
-        bdsarr:[
+        bdsarr: [
           {
-          x:''
-        },{
-          x:''
-        }],
-        bdsarr1:'',
+            x: ''
+          }, {
+            x: ''
+          }],
+        bdsarr1: '',
         xdarr1: '',
         bdarr1: '',
         sfarr1: '',
@@ -743,12 +1336,12 @@
     methods: {
       // 类型切换
       specimen_change() {
-        if (this.specimen_value == '小麦') {
+        if (this.specimen_value == '小麦淀粉') {
           this.level_name = '二级'
         } else {
           this.level_name = '一级'
         }
-        if (this.specimen_value == '玉米') {
+        if (this.specimen_value == '玉米淀粉') {
           this.jyyj = 'GB/T 8885'
         } else {
           this.jyyj = 'GB 31637'
@@ -803,7 +1396,7 @@
               sum += Number(randem_arr[j])
             }
           }
-          this.jhl_average = (sum / randem_arr.length).toFixed(1)
+          this.jhl_average = ((sum / randem_arr.length) - 0.3).toFixed(1)
         }
         this.jhl = randem_arr
       },
@@ -812,7 +1405,7 @@
         let w2 = this.math_rander(4, 6, 1, 5)[0]
         let w3 = (this.math_rander(1, 2, 1, 5) / 1000).toFixed(5)
         let H;
-        if (this.specimen_value == '马铃薯') {
+        if (this.specimen_value == '马铃薯淀粉') {
           H = this.math_rander(16.5, 19, 1, 2)[0]
         } else {
           H = this.math_rander(12.5, 14, 1, 2)[0]
@@ -840,7 +1433,7 @@
           let hh, w4, w3, w1, w2
           w1 = Number(this.meth_rander(21, 25, 4))
           w2 = Number(w1) + Number(this.meth_rander(4, 6, 4))
-          if (this.specimen_value == '马铃薯') {
+          if (this.specimen_value == '马铃薯淀粉') {
             hh = Number(this.meth_rander(16.5, 19, 1))
           } else {
             hh = Number(this.meth_rander(12.5, 14, 1))
@@ -873,7 +1466,7 @@
           m0 = Number(this.meth_rander(45, 47, 4))
           m1 = Number(m0) + Number(this.meth_rander(7, 9, 4))
           console.log(',,,', m0, m1, this.meth_rander(7, 9, 4))
-          if (this.specimen_value == '玉米') {
+          if (this.specimen_value == '玉米淀粉') {
             x = Number(this.meth_rander(11, 14, 2)) / 100
           } else {
             x = Number(this.meth_rander(22, 38, 2)) / 100
@@ -905,11 +1498,11 @@
         let arr = []
         for (let i = 0; i < 2; i++) {
           let c, x
-          if (this.specimen_value == '玉米')
+          if (this.specimen_value == '玉米淀粉')
             c = Number(this.meth_rander(5, 7, 0))
-          if (this.specimen_value == '小麦')
+          if (this.specimen_value == '小麦淀粉')
             c = Number(this.meth_rander(22, 28, 0))
-          if (this.specimen_value == '马铃薯')
+          if (this.specimen_value == '马铃薯淀粉')
             c = Number(this.meth_rander(48, 58, 0))
           x = c / 10
           arr.push({c: c, x: x})
@@ -925,11 +1518,11 @@
         for (let i = 0; i < 2; i++) {
           let x, m0, m1
           m0 = Number(this.meth_rander(48, 53, 1))
-          if (this.specimen_value == '玉米')
+          if (this.specimen_value == '玉米淀粉')
             x = Number(this.meth_rander(99.0, 99.8, 1))
-          if (this.specimen_value == '小麦')
+          if (this.specimen_value == '小麦淀粉')
             x = Number(this.meth_rander(98.0, 99.1, 1))
-          if (this.specimen_value == '马铃薯')
+          if (this.specimen_value == '马铃薯淀粉')
             x = Number(this.meth_rander(99.5, 99.9, 1))
           m1 = Number(x.toFixed(1)) / 100 * m0
           x = x.toFixed(1)
@@ -946,14 +1539,14 @@
         let arr = []
         for (let i = 0; i < 2; i++) {
           let x
-          if (this.specimen_value == '玉米')
+          if (this.specimen_value == '玉米淀粉')
             x = Number(this.meth_rander(87, 89, 1))
-          if (this.specimen_value == '小麦')
+          if (this.specimen_value == '小麦淀粉')
             x = Number(this.meth_rander(91, 92.5, 1))
-          if (this.specimen_value == '马铃薯')
+          if (this.specimen_value == '马铃薯淀粉')
             x = Number(this.meth_rander(90, 91.5, 1))
           x = x.toFixed(1)
-          arr.push({ x: x})
+          arr.push({x: x})
         }
 
         this.bdsarr = arr
@@ -966,11 +1559,20 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
-
+<style scoped>
+  @font-face {
+    font-family: 'hand_font';
+    src: url('./font.eot');
+    src: url('./font.eot?#iefix') format('embedded-opentype'),
+    url('./font.woff') format('woff'),
+    url('./font.ttf') format('truetype'),
+    url('./font.svg#webfont34M5alKg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+  }
 
   .font_class {
-    font-family: 'hand_font';
+    font-family: hand_font;
     font-size: 20px;
   }
 
